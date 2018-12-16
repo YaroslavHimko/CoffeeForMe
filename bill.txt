@@ -1,6 +1,5 @@
 Cashier: 
-===========
-Bomzh
+Yaroslav
 ============
 =============
-You ordered Coffee with Milk for 8.0
+You ordered Coffee with Milk for 7.0
