@@ -6,9 +6,10 @@ from Sales import create_sale, create_bill, print_bill
 
 class User(object):
     def __init__(self):
-        self.username, self.position = self.get_input()
+        self.username = input("Enter username: \n")
+        self.position = input("Enter position: \n")
 
-    def check_role(self):
+    def user_action(self):
         if self.position == "Manager":
 
             option = input(
@@ -90,17 +91,6 @@ class User(object):
         user = input("Please, enter your salesman name: \n")
         return user
 
-    def get_input(self):
-        position = input("Enter position: \n")
-        username = input("Enter username: \n")
-        return username, position
-
-    def execute_query(self, exec_string):
-        conn = sqlite3.connect('coffeeforme.db')
-        c = conn.cursor()
-        c.execute(exec_string)
-        conn.commit()
-        conn.close()
 
     def check_salesman(self):
         conn = sqlite3.connect('coffeeforme.db')

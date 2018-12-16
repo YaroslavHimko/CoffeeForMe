@@ -1,5 +1,5 @@
 Cashier: 
-Yaroslav
+Bob
 ============
 =============
-You ordered Coffee with Milk for 7.0
+You ordered Tea with Nuts for 107.0
