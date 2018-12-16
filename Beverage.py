@@ -1,36 +1,45 @@
 import sqlite3
 import argparse
-
+import User
 
 class Beverage(object):
 
     def __init__(self):
-        args = self.get_input()
-        self.type = args.type
-        self.ingredients = args.ingredients
-        self.price = args.price
+        self.type, self.price = self.get_input()
 
     def file_writer(self):
         f = open("bill.txt", "w")
-        f.write("Got beverage {} with {} for {}".format(self.type, self.ingredients, self.price))
+        f.write("Got beverage {} for {}".format(self.type, self.price))
 
     def file_reader(self):
         f = open("bill.txt", "r")
         print(f.readline())
 
-    def db_worker(self):
-        conn = sqlite3.connect('coffeeforme.db')
-        c = conn.cursor()
-        ###c.execute("""CREATE TABLE beverage (id INTEGER PRIMARY KEY, type TEXT, ingredients TEXT, price TEXT)""")
-        c.execute(
-            "INSERT INTO beverage VALUES ({}, '{}', '{}','{}')".format(1, self.type, self.ingredients, self.price))
-        c.execute("SELECT * from beverage")
-        print(c.fetchone())
+    def save_beverage(self, user):
+        if user.position == "Salesman":
+            conn = sqlite3.connect('coffeeforme.db')
+            c = conn.cursor()
+            ###c.execute("""DROP TABLE beverage""")
+            ###c.execute("""CREATE TABLE beverage (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, type TEXT, price REAL)""")
+
+            c.execute("INSERT INTO beverage VALUES (NULL, '{}', '{}')".format(self.type, self.price))
+
+            ###c.execute(
+                ####"INSERT INTO beverage VALUES ({}, '{}', '{}','{}')".format(1, self.type, self.ingredients, self.price))
+            conn.commit()
+
+        else:
+            print("Fuck you")
+
+    def get_beverages(self, user):
+        if user.position == "Salesman":
+            print("Please, choose beverage to sell: \n")
+            conn = sqlite3.connect('coffeeforme.db')
+            c = conn.cursor()
+            c.execute("SELECT * from beverage")
+            print(c.fetchall())
 
     def get_input(self):
-        parser = argparse.ArgumentParser()
-        parser.add_argument("type")
-        parser.add_argument("ingredients")
-        parser.add_argument("price")
-        args = parser.parse_args()
-        return args
+        type = input("Enter type: \n")
+        price = input("Enter price: \n")
+        return type, price
