@@ -32,6 +32,9 @@ class User(object):
                 elif option == 'i':
                     create_ingredient()
                     option = input("Please, choose option again:\n")
+                else:
+                    print("{} option is not supported.".format(option))
+                    option = input("Please, choose option again:\n")
 
         elif self.position == "Salesman":
             if self.check_salesman():
@@ -58,9 +61,12 @@ class User(object):
         c = conn.cursor()
         username = input("Enter user name: \n")
         position = input("Enter user position: \n")
-        c.execute("INSERT INTO users VALUES (NULL,'{}','{}','{}','{}')".format(username, position, 0, 0))
-        conn.commit()
-        conn.close()
+        if position == "Salesman" or position == "Manager":
+            c.execute("INSERT INTO users VALUES (NULL,'{}','{}','{}','{}')".format(username, position, 0, 0))
+            conn.commit()
+            conn.close()
+        else:
+            print("Incorrect position '{}'.\nYou should specify position 'Manager' or 'Salesman'".format(position))
 
     def get_manager_option(self):
         option = input(
@@ -77,8 +83,11 @@ class User(object):
         c.execute("SELECT DISTINCT name, position from users WHERE name = '{}'".format(user))
         user_info = c.fetchall()
         conn.commit()
-        print("Name:", user_info[0][0], "\nPosition:", user_info[0][1], "\nAmount of sales:",
-              self.prepare_statistics(user)[0][0], "\nTotal value ($):", self.prepare_statistics(user)[1][0])
+        try:
+            print("Name:", user_info[0][0], "\nPosition:", user_info[0][1], "\nAmount of sales:",
+                  self.prepare_statistics(user)[0][0], "\nTotal value ($):", self.prepare_statistics(user)[1][0])
+        except IndexError:
+            print("User doesn't exist")
 
     def prepare_statistics(self, user):
         conn = sqlite3.connect('coffeeforme.db')
@@ -90,7 +99,6 @@ class User(object):
     def get_manager_input(self):
         user = input("Please, enter your salesman name: \n")
         return user
-
 
     def check_salesman(self):
         conn = sqlite3.connect('coffeeforme.db')

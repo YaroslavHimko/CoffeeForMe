@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 from User import User as User
 from Database_init import init_db
 
