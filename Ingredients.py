@@ -1,21 +1,20 @@
 import sqlite3
 
-class Ingredients(object):
-    def __init__(self):
-        self.type, self.price = self.get_input()
 
-    def get_input(self):
-        type = input("Enter ingredients: \n")
-        price = input("Enter price: \n")
-        return type, price
+def create_ingredient():
+    conn = sqlite3.connect('coffeeforme.db')
+    c = conn.cursor()
+    ingredient = input("Enter ingredient: \n")
+    price = input("Enter price: \n")
+    c.execute("INSERT INTO ingredients VALUES (NULL, '{}', '{}')".format(ingredient, price))
+    conn.commit()
+    conn.close()
 
 
-    def save_ingredient(self, user):
-        if user.position == "Salesman":
-            conn = sqlite3.connect('coffeeforme.db')
-            c = conn.cursor()
-            ###c.execute("""CREATE TABLE ingredients (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, type TEXT, price REAL)""")
-            c.execute("INSERT INTO ingredients VALUES (NULL, '{}', '{}')".format(self.type, self.price))
-            conn.commit()
-        else:
-            print("Fuck you")
+def select_ingredient():
+    conn = sqlite3.connect('coffeeforme.db')
+    c = conn.cursor()
+    c.execute("SELECT * FROM ingredients")
+    conn.commit()
+    available_ingredients = c.fetchall()
+    return available_ingredients

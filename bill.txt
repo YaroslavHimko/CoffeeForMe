@@ -1,1 +1,6 @@
-Got beverage coffee with milk for 20
+Cashier: 
+===========
+Bomzh
+============
+=============
+You ordered Coffee with Milk for 8.0
