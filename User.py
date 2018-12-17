@@ -80,8 +80,9 @@ class User(object):
             total_value = self.prepare_statistics(user)[1][0]
 
             print("Name: {}\nPosition: {}\nAmount of sales: {}\nTotal value ($): {}\n".format(name, position, amount,
-                  total_value))
-            exec_insert_query("UPDATE users SET number='{}', value='{}' WHERE name='{}';".format(amount, total_value, user))
+                                                                                              total_value))
+            exec_insert_query(
+                "UPDATE users SET number='{}', value='{}' WHERE name='{}';".format(amount, total_value, user))
         except IndexError:
             print("User doesn't exist")
 

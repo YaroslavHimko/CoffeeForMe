@@ -5,13 +5,17 @@ def init_db():
     conn = sqlite3.connect('coffeeforme.db')
     c = conn.cursor()
     c.execute(
-            """CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, name TEXT, position TEXT, number INTEGER, value INTEGER, UNIQUE(name))""")
+            """CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                name TEXT, position TEXT, number INTEGER, value INTEGER, UNIQUE(name))""")
     c.execute(
-            """CREATE TABLE IF NOT EXISTS sales (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, username TEXT, type TEXT, ingredient TEXT, price REAL)""")
+            """CREATE TABLE IF NOT EXISTS sales (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                username TEXT, type TEXT, ingredient TEXT, price REAL)""")
     c.execute(
-            """CREATE TABLE IF NOT EXISTS ingredients (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, type TEXT, price REAL, UNIQUE(type))""")
+            """CREATE TABLE IF NOT EXISTS ingredients (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                type TEXT, price REAL, UNIQUE(type))""")
     c.execute(
-            """CREATE TABLE IF NOT EXISTS beverage (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, type TEXT, price REAL, UNIQUE (type))""")
+            """CREATE TABLE IF NOT EXISTS beverage (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                type TEXT, price REAL, UNIQUE (type))""")
     conn.commit()
     conn.close()
 
