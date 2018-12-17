@@ -3,7 +3,6 @@ from utils import init_db, drop_db, fill_database
 
 
 def main():
-    drop_db()
     init_db()
     fill_database()
     user = User()

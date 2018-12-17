@@ -39,7 +39,8 @@ class User(object):
         username = input("Enter user name: \n")
         position = input("Enter user position (Manager/Salesman): \n")
         if position == "Salesman" or position == "Manager":
-            exec_insert_query("INSERT OR IGNORE INTO users VALUES (NULL,'{}','{}','{}','{}')".format(username, position, 0, 0))
+            exec_insert_query(
+                    "INSERT OR IGNORE INTO users VALUES (NULL,'{}','{}','{}','{}')".format(username, position, 0, 0))
         else:
             print("Incorrect position '{}'.\nYou should specify position 'Manager' or 'Salesman'".format(position))
 
@@ -73,8 +74,14 @@ class User(object):
     def statistics(self, user):
         user_info = exec_select_query("SELECT DISTINCT name, position from users WHERE name = '{}'".format(user))
         try:
-            print("Name:", user_info[0][0], "\nPosition:", user_info[0][1], "\nAmount of sales:",
-                  self.prepare_statistics(user)[0][0], "\nTotal value ($):", self.prepare_statistics(user)[1][0])
+            name = user_info[0][0]
+            position = user_info[0][1]
+            amount = self.prepare_statistics(user)[0][0]
+            total_value = self.prepare_statistics(user)[1][0]
+
+            print("Name: {}\nPosition: {}\nAmount of sales: {}\nTotal value ($): {}\n".format(name, position, amount,
+                  total_value))
+            exec_insert_query("UPDATE users SET number='{}', value='{}' WHERE name='{}';".format(amount, total_value, user))
         except IndexError:
             print("User doesn't exist")
 
