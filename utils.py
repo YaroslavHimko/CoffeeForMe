@@ -3,6 +3,10 @@ import sqlite3
 
 
 def init_db():
+    """
+    Function creates database and its tables.
+    Used for the first application's run
+    """
     conn = sqlite3.connect('coffeeforme.db')
     c = conn.cursor()
     c.execute(
@@ -22,6 +26,9 @@ def init_db():
 
 
 def drop_db():
+    """
+    Function for clearing database from test records
+    """
     conn = sqlite3.connect('coffeeforme.db')
     c = conn.cursor()
     c.execute("""DROP TABLE users""")
@@ -33,6 +40,11 @@ def drop_db():
 
 
 def exec_insert_query(query):
+    """
+    Function create connection to a database,
+    create cursor, execute query, commits and closes connection.
+    Function takes query as a string parameter.
+    """
     conn = sqlite3.connect('coffeeforme.db')
     c = conn.cursor()
     c.execute(query)
@@ -41,6 +53,12 @@ def exec_insert_query(query):
 
 
 def exec_select_query(query):
+    """
+    Function create connection to a database,
+    create cursor, execute query, commits and closes connection.
+    Unlike insert function, select function perform fetchall.
+    Function takes query as a string parameter.
+    """
     conn = sqlite3.connect('coffeeforme.db')
     c = conn.cursor()
     c.execute(query)
@@ -51,6 +69,9 @@ def exec_select_query(query):
 
 
 def float_validator(value):
+    """
+    Function used as a validator to not allow user perform unacceptable inputs.
+    """
     try:
         float(value)
         return True
@@ -60,6 +81,10 @@ def float_validator(value):
 
 
 def fill_db():
+    """
+    Function used as a filler for a database.
+    Created mostly for presentation.
+    """
     exec_insert_query("INSERT OR IGNORE INTO ingredients VALUES (NULL, '{}', '{}')".format("Sugar", 0.0))
     exec_insert_query("INSERT OR IGNORE INTO ingredients VALUES (NULL, '{}', '{}')".format("Chocolate", 0.3))
     exec_insert_query("INSERT OR IGNORE INTO ingredients VALUES (NULL, '{}', '{}')".format("Milk", 1.0))
@@ -75,6 +100,9 @@ def fill_db():
 
 
 def custom_input(value):
+    """
+    Function solves compatibility issue regarding input methods in Python 2.7 and Python 3+
+    """
     try:
         input = raw_input
         return input(value)
