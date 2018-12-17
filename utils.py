@@ -34,6 +34,7 @@ def exec_insert_query(query):
     conn.commit()
     conn.close()
 
+
 def exec_select_query(query):
     conn = sqlite3.connect('coffeeforme.db')
     c = conn.cursor()
@@ -42,3 +43,12 @@ def exec_select_query(query):
     conn.commit()
     conn.close()
     return parameter
+
+
+def float_validator(value):
+    try:
+        float(value)
+        return True
+    except ValueError:
+        print("Cannot create item with price '{}'. Please, use float.".format(value))
+        return False

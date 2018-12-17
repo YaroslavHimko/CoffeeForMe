@@ -1,4 +1,4 @@
-from Database_init import exec_insert_query
+from utils import exec_insert_query
 
 
 def create_sale(username, beverage, ingredient, order_price):
