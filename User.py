@@ -1,7 +1,7 @@
-import sqlite3
 from Ingredients import create_ingredient, select_ingredient
 from Beverage import create_beverage, select_beverages
 from Sales import create_sale, create_bill, print_bill
+from Database_init import exec_insert_query, exec_select_query
 
 
 class User(object):
@@ -50,6 +50,7 @@ class User(object):
                             order_price)
                 create_bill(self.username, beverages[selected_beverage - 1][1], ingredients[selected_ingredient - 1][1],
                             order_price)
+                print_bill()
             else:
                 print("Please, contact your manager to register you.")
 
@@ -57,14 +58,10 @@ class User(object):
             print("Please, specify role as Manager or Salesman")
 
     def create_user(self):
-        conn = sqlite3.connect('coffeeforme.db')
-        c = conn.cursor()
         username = input("Enter user name: \n")
         position = input("Enter user position: \n")
         if position == "Salesman" or position == "Manager":
-            c.execute("INSERT INTO users VALUES (NULL,'{}','{}','{}','{}')".format(username, position, 0, 0))
-            conn.commit()
-            conn.close()
+            exec_insert_query("INSERT INTO users VALUES (NULL,'{}','{}','{}','{}')".format(username, position, 0, 0))
         else:
             print("Incorrect position '{}'.\nYou should specify position 'Manager' or 'Salesman'".format(position))
 
@@ -78,11 +75,7 @@ class User(object):
         return option
 
     def statistics(self, user):
-        conn = sqlite3.connect('coffeeforme.db')
-        c = conn.cursor()
-        c.execute("SELECT DISTINCT name, position from users WHERE name = '{}'".format(user))
-        user_info = c.fetchall()
-        conn.commit()
+        user_info = exec_select_query("SELECT DISTINCT name, position from users WHERE name = '{}'".format(user))
         try:
             print("Name:", user_info[0][0], "\nPosition:", user_info[0][1], "\nAmount of sales:",
                   self.prepare_statistics(user)[0][0], "\nTotal value ($):", self.prepare_statistics(user)[1][0])
@@ -90,10 +83,9 @@ class User(object):
             print("User doesn't exist")
 
     def prepare_statistics(self, user):
-        conn = sqlite3.connect('coffeeforme.db')
-        c = conn.cursor()
-        count = c.execute("SELECT COUNT(type) from sales WHERE username='{}'".format(user)).fetchall()
-        sum_price = c.execute("SELECT SUM(price) from sales WHERE username='{}'".format(user)).fetchall()
+
+        count = exec_select_query("SELECT COUNT(type) from sales WHERE username='{}'".format(user))
+        sum_price = exec_select_query("SELECT SUM(price) from sales WHERE username='{}'".format(user))
         return count[0], sum_price[0]
 
     def get_manager_input(self):
@@ -101,13 +93,12 @@ class User(object):
         return user
 
     def check_salesman(self):
-        conn = sqlite3.connect('coffeeforme.db')
-        c = conn.cursor()
         try:
-            c.execute("SELECT name from users WHERE name = '{}'".format(self.username))
-            username = c.fetchone()
-            conn.commit()
-            return self.username == username[0]
+            username = exec_select_query("SELECT name from users WHERE name = '{}'".format(self.username))
+            return self.username == username[0][0]
         except TypeError:
+            print("User was not found")
+            return False
+        except IndexError:
             print("User was not found")
             return False

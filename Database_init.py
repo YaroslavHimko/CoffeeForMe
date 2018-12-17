@@ -8,8 +8,10 @@ def init_db():
             """CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, name TEXT, position TEXT, number INTEGER, value INTEGER)""")
     c.execute(
             """CREATE TABLE IF NOT EXISTS sales (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, username TEXT, type TEXT, ingredient TEXT, price REAL)""")
-    c.execute("""CREATE TABLE IF NOT EXISTS ingredients (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, type TEXT, price REAL)""")
-    c.execute("""CREATE TABLE IF NOT EXISTS beverage (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, type TEXT, price REAL)""")
+    c.execute(
+            """CREATE TABLE IF NOT EXISTS ingredients (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, type TEXT, price REAL)""")
+    c.execute(
+            """CREATE TABLE IF NOT EXISTS beverage (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, type TEXT, price REAL)""")
     conn.commit()
     conn.close()
 
@@ -23,3 +25,20 @@ def drop_db():
     c.execute("""DROP TABLE sales""")
     conn.commit()
     conn.close()
+
+
+def exec_insert_query(query):
+    conn = sqlite3.connect('coffeeforme.db')
+    c = conn.cursor()
+    c.execute(query)
+    conn.commit()
+    conn.close()
+
+def exec_select_query(query):
+    conn = sqlite3.connect('coffeeforme.db')
+    c = conn.cursor()
+    c.execute(query)
+    parameter = c.fetchall()
+    conn.commit()
+    conn.close()
+    return parameter

@@ -1,5 +1,1 @@
-Cashier: 
-Bob
-============
-=============
-You ordered Tea with Nuts for 107.0
+Cashier: LOH. You ordered Latte with noski for 181.0

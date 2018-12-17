@@ -1,20 +1,10 @@
-import sqlite3
-
+from Database_init import exec_insert_query, exec_select_query
 
 def create_ingredient():
-    conn = sqlite3.connect('coffeeforme.db')
-    c = conn.cursor()
     ingredient = input("Enter ingredient: \n")
     price = input("Enter price: \n")
-    c.execute("INSERT INTO ingredients VALUES (NULL, '{}', '{}')".format(ingredient, price))
-    conn.commit()
-    conn.close()
+    exec_insert_query("INSERT INTO ingredients VALUES (NULL, '{}', '{}')".format(ingredient, price))
 
 
 def select_ingredient():
-    conn = sqlite3.connect('coffeeforme.db')
-    c = conn.cursor()
-    c.execute("SELECT * FROM ingredients")
-    conn.commit()
-    available_ingredients = c.fetchall()
-    return available_ingredients
+    return exec_select_query("SELECT * FROM ingredients")
