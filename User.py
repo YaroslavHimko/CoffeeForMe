@@ -73,7 +73,8 @@ class User(object):
             self.get_manager_option()
         return option
 
-    def return_user_statistics(self, user):
+    @staticmethod
+    def return_user_statistics(user):
         user_info = exec_select_query("SELECT DISTINCT name, position from users WHERE name = '{}'".format(user))
         return user_info
 
@@ -90,7 +91,7 @@ class User(object):
             exec_insert_query(
                     "UPDATE users SET number='{}', value='{}' WHERE name='{}';".format(amount, total_value, user))
         except IndexError:
-            print("User doesn't exist")
+            print("'{}' user doesn't exist".format(user))
 
     @staticmethod
     def prepare_statistics(user):

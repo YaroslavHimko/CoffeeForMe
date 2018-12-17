@@ -59,7 +59,7 @@ def float_validator(value):
         return False
 
 
-def fill_database():
+def fill_db():
     exec_insert_query("INSERT OR IGNORE INTO ingredients VALUES (NULL, '{}', '{}')".format("Sugar", 0.0))
     exec_insert_query("INSERT OR IGNORE INTO ingredients VALUES (NULL, '{}', '{}')".format("Chocolate", 0.3))
     exec_insert_query("INSERT OR IGNORE INTO ingredients VALUES (NULL, '{}', '{}')".format("Milk", 1.0))
