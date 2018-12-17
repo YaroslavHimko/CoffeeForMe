@@ -49,23 +49,24 @@ class User(object):
                 "Enter 'b' to create new beverage\n"
                 "Enter 'i' to create new ingredient\n"
                 "Or q to exit:\n")
-        while option != 'q':
-            if option == 's':
-                user = self.get_manager_input()
-                self.statistics(user)
-                self.get_manager_option()
-            elif option == 'u':
-                self.create_user()
-                self.get_manager_option()
-            elif option == 'b':
-                create_beverage()
-                self.get_manager_option()
-            elif option == 'i':
-                create_ingredient()
-                self.get_manager_option()
-            else:
-                print("{} option is not supported.".format(option))
-                self.get_manager_option()
+        if option == 's':
+            user = self.get_manager_input()
+            self.statistics(user)
+            self.get_manager_option()
+        elif option == 'u':
+            self.create_user()
+            self.get_manager_option()
+        elif option == 'b':
+            create_beverage()
+            self.get_manager_option()
+        elif option == 'i':
+            create_ingredient()
+            self.get_manager_option()
+        elif option == 'q':
+            return
+        else:
+            print("'{}' option is not supported.".format(option))
+            self.get_manager_option()
         return option
 
     def statistics(self, user):

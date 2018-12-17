@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from User import User as User
-from utils import init_db
+from utils import init_db, drop_db
 
 
 def main():
