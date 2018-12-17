@@ -5,7 +5,7 @@ def create_beverage():
     beverage = input("Enter beverage: \n")
     price = input("Enter price: \n")
     if float_validator(price):
-        exec_insert_query("INSERT INTO beverage VALUES (NULL, '{}', '{}')".format(beverage, price))
+        exec_insert_query("INSERT OR IGNORE INTO beverage VALUES (NULL, '{}', '{}')".format(beverage, price))
 
 
 def select_beverages():

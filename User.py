@@ -34,11 +34,12 @@ class User(object):
         else:
             print("Please, specify role as Manager or Salesman")
 
-    def create_user(self):
+    @staticmethod
+    def create_user():
         username = input("Enter user name: \n")
         position = input("Enter user position (Manager/Salesman): \n")
         if position == "Salesman" or position == "Manager":
-            exec_insert_query("INSERT INTO users VALUES (NULL,'{}','{}','{}','{}')".format(username, position, 0, 0))
+            exec_insert_query("INSERT OR IGNORE INTO users VALUES (NULL,'{}','{}','{}','{}')".format(username, position, 0, 0))
         else:
             print("Incorrect position '{}'.\nYou should specify position 'Manager' or 'Salesman'".format(position))
 
@@ -77,12 +78,14 @@ class User(object):
         except IndexError:
             print("User doesn't exist")
 
-    def prepare_statistics(self, user):
+    @staticmethod
+    def prepare_statistics(user):
         count = exec_select_query("SELECT COUNT(type) from sales WHERE username='{}'".format(user))
         sum_price = exec_select_query("SELECT SUM(price) from sales WHERE username='{}'".format(user))
         return count[0], sum_price[0]
 
-    def get_manager_input(self):
+    @staticmethod
+    def get_manager_input():
         user = input("Please, enter your salesman name: \n")
         return user
 
@@ -94,7 +97,8 @@ class User(object):
             print("User was not found")
             return False
 
-    def calculate_sale_price(self, beverages, selected_beverage, ingredients, selected_ingredient):
+    @staticmethod
+    def calculate_sale_price(beverages, selected_beverage, ingredients, selected_ingredient):
         order_price = float(beverages[selected_beverage - 1][2]) + float(
                 ingredients[selected_ingredient - 1][2])
         return order_price

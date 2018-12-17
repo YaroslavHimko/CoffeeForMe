@@ -6,7 +6,7 @@ def create_ingredient():
     price = input("Enter price: \n")
 
     if float_validator(price):
-        exec_insert_query("INSERT INTO ingredients VALUES (NULL, '{}', '{}')".format(ingredient, price))
+        exec_insert_query("INSERT OR IGNORE INTO ingredients VALUES (NULL, '{}', '{}')".format(ingredient, price))
 
 
 def select_ingredient():
