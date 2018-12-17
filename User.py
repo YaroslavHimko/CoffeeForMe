@@ -1,13 +1,13 @@
 from Ingredients import create_ingredient, select_ingredient
 from Beverage import create_beverage, select_beverages
 from Sales import create_sale, create_bill, print_bill
-from utils import exec_insert_query, exec_select_query
+from utils import exec_insert_query, exec_select_query, custom_input
 
 
 class User(object):
     def __init__(self):
-        self.username = input("Enter username: \n")
-        self.position = input("Enter position (Manager/Salesman): \n")
+        self.username = custom_input("Enter username: \n")
+        self.position = custom_input("Enter position (Manager/Salesman): \n")
 
     def user_action(self):
         if self.position == "Manager":
@@ -16,11 +16,11 @@ class User(object):
             if self.check_salesman():
                 beverages = select_beverages()
                 print("{} \n".format(beverages))
-                selected_beverage = int(input("Please, choose beverage id: \n"))
+                selected_beverage = int(custom_input("Please, choose beverage id: \n"))
                 print(selected_beverage)
                 ingredients = select_ingredient()
                 print("{} \n".format(ingredients))
-                selected_ingredient = int(input("Please, choose ingredient id: \n"))
+                selected_ingredient = int(custom_input("Please, choose ingredient id: \n"))
                 print(selected_ingredient)
 
                 user, beverage, ingredient, price = self.process_sale(beverages, selected_beverage, ingredients,
@@ -36,8 +36,8 @@ class User(object):
 
     @staticmethod
     def create_user():
-        username = input("Enter user name: \n")
-        position = input("Enter user position (Manager/Salesman): \n")
+        username = custom_input("Enter user name: \n")
+        position = custom_input("Enter user position (Manager/Salesman): \n")
         if position == "Salesman" or position == "Manager":
             exec_insert_query(
                     "INSERT OR IGNORE INTO users VALUES (NULL,'{}','{}','{}','{}')".format(username, position, 0, 0))
@@ -45,7 +45,7 @@ class User(object):
             print("Incorrect position '{}'.\nYou should specify position 'Manager' or 'Salesman'".format(position))
 
     def get_manager_option(self):
-        option = input(
+        option = custom_input(
                 "Enter 's' to show statistics\n"
                 "Enter 'u' to create new user\n"
                 "Enter 'b' to create new beverage\n"
@@ -82,7 +82,7 @@ class User(object):
             print("Name: {}\nPosition: {}\nAmount of sales: {}\nTotal value ($): {}\n".format(name, position, amount,
                                                                                               total_value))
             exec_insert_query(
-                "UPDATE users SET number='{}', value='{}' WHERE name='{}';".format(amount, total_value, user))
+                    "UPDATE users SET number='{}', value='{}' WHERE name='{}';".format(amount, total_value, user))
         except IndexError:
             print("User doesn't exist")
 
@@ -94,7 +94,7 @@ class User(object):
 
     @staticmethod
     def get_manager_input():
-        user = input("Please, enter your salesman name: \n")
+        user = custom_input("Please, enter your salesman name: \n")
         return user
 
     def check_salesman(self):

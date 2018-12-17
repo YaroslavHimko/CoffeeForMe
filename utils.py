@@ -1,4 +1,6 @@
+from __future__ import print_function
 import sqlite3
+import sys
 
 
 def init_db():
@@ -71,3 +73,11 @@ def fill_database():
     exec_insert_query("INSERT OR IGNORE INTO beverage VALUES (NULL, '{}', '{}')".format("Latte", 4.0))
     exec_insert_query("INSERT OR IGNORE INTO beverage VALUES (NULL, '{}', '{}')".format("Espresso", 3.0))
     exec_insert_query("INSERT OR IGNORE INTO beverage VALUES (NULL, '{}', '{}')".format("Tea", 1.5))
+
+
+def custom_input(value):
+    try:
+        input = raw_input
+        return input(value)
+    except NameError:
+        pass
