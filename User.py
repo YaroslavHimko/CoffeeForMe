@@ -15,11 +15,13 @@ class User(object):
         elif self.position == "Salesman":
             if self.check_salesman():
                 beverages = select_beverages()
-                print("{} \n".format(beverages))
+                for beverage in beverages:
+                    print("{} \n".format(beverage))
                 selected_beverage = int(custom_input("Please, choose beverage id: \n"))
                 print(selected_beverage)
                 ingredients = select_ingredient()
-                print("{} \n".format(ingredients))
+                for ingredient in ingredients:
+                    print("{} \n".format(ingredient))
                 selected_ingredient = int(custom_input("Please, choose ingredient id: \n"))
                 print(selected_ingredient)
 
@@ -71,8 +73,12 @@ class User(object):
             self.get_manager_option()
         return option
 
-    def statistics(self, user):
+    def return_user_statistics(self, user):
         user_info = exec_select_query("SELECT DISTINCT name, position from users WHERE name = '{}'".format(user))
+        return user_info
+
+    def statistics(self, user):
+        user_info = self.return_user_statistics(user)
         try:
             name = user_info[0][0]
             position = user_info[0][1]
@@ -88,8 +94,12 @@ class User(object):
 
     @staticmethod
     def prepare_statistics(user):
-        count = exec_select_query("SELECT COUNT(type) from sales WHERE username='{}'".format(user))
-        sum_price = exec_select_query("SELECT SUM(price) from sales WHERE username='{}'".format(user))
+        if user == 'a':
+            count = exec_select_query("SELECT COUNT(type) from sales WHERE username='{}'".format(user))
+            sum_price = exec_select_query("SELECT SUM(price) from sales WHERE username='{}'".format(user))
+        else:
+            count = exec_select_query("SELECT COUNT(type) from sales WHERE username='{}'".format(user))
+            sum_price = exec_select_query("SELECT SUM(price) from sales WHERE username='{}'".format(user))
         return count[0], sum_price[0]
 
     @staticmethod
